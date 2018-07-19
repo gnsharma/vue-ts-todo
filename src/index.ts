@@ -15,7 +15,6 @@ export interface Todo {
 
 const app = new Vue({
     el: '#app',
-    data: { name: "World"},
     components: {
         TodoApp
     }

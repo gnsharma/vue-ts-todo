@@ -38,89 +38,89 @@ import TodoItem from './TodoItem.vue';
 import { State, Todo } from '../index';
 
 export default Vue.extend({
-    components: {
-	TodoItem,
-    },
-   
-    props: [],
+		components: {
+				TodoItem,
+		},
 
-    data() {
+		props: [],
+
+		data() {
 	
-	const initialState: State = {
-	    newTodoTitle: '',
-	    currentView: 'all',
-	    todos: [
-		{ completed: false, title: 'First todo', index: 0 },
-	    ]
-	};
-	
-	return initialState;
-    },
+				const initialState: State = {
+						newTodoTitle: '',
+						currentView: 'all',
+						todos: [
+								{ completed: false, title: 'First todo', index: 0 },
+						]
+				};
 
-    methods: {
-	
-	createTodo() {
-	    const title = this.newTodoTitle.trim();
-	    if (!title) {
-		return;
-	    }
-	    this.todos.push({
-		completed: false,
-		title,
-		index: this.todos.length
-	    });
-	    this.newTodoTitle = '';
-	},
-	
-	removeTodo(index: number) {
-	    if (index >= this.todos.length) {
-		throw new Error(`Index of to be deleted todo is greater than length of todo list`);
-	    }
-	    this.todos.splice(index, 1);
-	},
+				return initialState;
+		},
 
-        toggleCompleted(index: number) {
-            const current = this.todos[index];
-	    this.todos.splice(index, 1, {
-		...current,
-		completed: !current.completed
-	    });
-	},
+		methods: {
 
-	clearCompleted() {
-	    this.todos = this.remaining;
-        },
+				createTodo() {
+							const title = this.newTodoTitle.trim();
+							if (!title) {
+									return;
+							}
+							this.todos.push({
+									completed: false,
+									title,
+									index: this.todos.length
+							});
+							this.newTodoTitle = '';
+				},
 
-	toggleAll() {
-	    const stateForAll = this.completed.length !== this.todos.length;
+				removeTodo(index: number) {
+						if (index >= this.todos.length) {
+								throw new Error(`Index of to be deleted todo is greater than length of todo list`);
+						}
+						this.todos.splice(index, 1);
+				},
 
-	    for  (const todo of this.todos) {
-		todo.completed = stateForAll;
-	    }
-	},
+				toggleCompleted(index: number) {
+						const current = this.todos[index];
+						this.todos.splice(index, 1, {
+								...current,
+								completed: !current.completed
+						});
+				},
 
-    },
+				clearCompleted() {
+						this.todos = this.remaining;
+				},
 
-    computed: {
-	todosInView(): Todo[] {
-	    switch (this.currentView) {
-		case 'completed':
-		    return this.completed;
-		case 'active':
-		    return this.remaining;
-		case 'all':
-		    return this.todos;
-		default:
-		    return this.todos;
-	    }
-	},
-	completed(): Todo[] {
-	    return this.todos.filter(isCompleted);
-	},
-	remaining(): Todo[] {
-	    return this.todos.filter(isNotCompleted);
-	},
-    },
+				toggleAll() {
+						const stateForAll = this.completed.length !== this.todos.length;
+
+						for (const todo of this.todos) {
+							  todo.completed = stateForAll;
+						}
+				},
+
+		},
+
+		computed: {
+				todosInView(): Todo[] {
+						switch (this.currentView) {
+								case 'completed':
+										return this.completed;
+								case 'active':
+										return this.remaining;
+								case 'all':
+										return this.todos;
+								default:
+										return this.todos;
+						}
+				},
+				completed(): Todo[] {
+						return this.todos.filter(isCompleted);
+				},
+				remaining(): Todo[] {
+						return this.todos.filter(isNotCompleted);
+				},
+		},
 });
 
 function isCompleted(todo: Todo) {
